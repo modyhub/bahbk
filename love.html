@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>قصة حب ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#2a0f1f; --bg2:#4a1530; --card:#fff3ee; --ink:#4a1530; --rose:#d6336c; --gold:#e8b04a; --muted:#8a5a6b;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d0a15;--bg2:#3a1026}}
+:root[data-theme="dark"]{--bg:#1d0a15;--bg2:#3a1026}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Cairo',sans-serif;background:radial-gradient(circle at 50% 20%,var(--bg2),var(--bg));color:var(--ink);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card{position:relative;z-index:2;background:var(--card);width:min(92vw,440px);padding:34px 26px 30px;border-radius:28px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45);border:2px solid var(--gold)}
+.crown{font-size:44px;line-height:1}
+h1{font-family:'Aref Ruqaa',serif;font-size:34px;margin:8px 0 4px;color:var(--rose)}
+.names{font-size:17px;color:var(--muted);margin:0 0 18px}
+.story{font-size:17px;line-height:1.9;margin:0 0 22px;min-height:96px}
+.q{font-family:'Aref Ruqaa',serif;font-size:30px;margin:0 0 20px}
+.btns{position:relative;display:flex;gap:16px;justify-content:center;align-items:center;min-height:56px}
+button{font-family:inherit;font-size:19px;font-weight:600;border:0;border-radius:999px;padding:13px 30px;cursor:pointer}
+#yes{background:var(--rose);color:#fff;box-shadow:0 6px 18px rgba(214,51,108,.45);transition:transform .2s}
+#yes:hover{transform:scale(1.08)}
+#no{background:#e9d9d6;color:var(--ink);transition:left .25s ease,top .25s ease}
+#no.run{position:fixed;z-index:5}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.hint{font-size:14px;color:var(--muted);margin-top:16px;min-height:22px}
+#win{display:none}
+.win .q,.win .btns,.win .hint,.win #ask{display:none}
+.win #win{display:block}
+#win p{font-size:20px;line-height:2;margin:10px 0 0}
+.heart{position:fixed;top:-40px;z-index:1;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(40deg);opacity:.2}}
+@media (prefers-reduced-motion:reduce){.heart{display:none}}
+</style>
+</head>
+<body>
+<main class="card" id="card">
+  <div class="crown">👑</div>
+  <h1>يا ملكة قلبي</h1>
+  <p class="names">سندس ❤️ إلك أنتِ بس</p>
+  <div id="ask">
+    <p class="story">من أول يوم شفتك فيه، صار قلبي يعرف طريقه. يا سندس، إنتِ الحكاية اللي ما بدي إلها نهاية.</p>
+    <p class="q">بتحبيني؟ 🥺</p>
+    <div class="btns">
+      <button id="yes">إي طبعاً 💖</button>
+      <button id="no">لاء</button>
+    </div>
+    <p class="hint" id="hint"></p>
+  </div>
+  <div id="win">
+    <div class="crown">💍</div>
+    <p>كنت عارف يا ملكة! ❤️<br>سندس، إنتِ دنيتي وعمري وكل حكايتي.<br>بحبك كتير كتير 🌹</p>
+  </div>
+</main>
+
+<script>
+const no=document.getElementById('no'),yes=document.getElementById('yes'),hint=document.getElementById('hint'),card=document.getElementById('card');
+const msgs=['ما بتقدري تضغطي عليها 😏','حاولي مرة تانية يا ملكة 😂','الزر خجلان منك 🙈','قلبك بيقول إي 💘','يلا يا سندس، اضغطي إي 🥰','الزر تعب من الركض 😅'];
+let n=0;
+function run(e){
+  if(e&&e.cancelable)e.preventDefault();
+  no.classList.add('run');
+  const w=no.offsetWidth,h=no.offsetHeight,m=12;
+  const x=m+Math.random()*(window.innerWidth-w-2*m);
+  const y=m+Math.random()*(window.innerHeight-h-2*m);
+  no.style.left=x+'px';no.style.top=y+'px';
+  hint.textContent=msgs[n++%msgs.length];
+  yes.style.transform='scale('+Math.min(1+n*0.06,1.6)+')';
+}
+no.addEventListener('mouseenter',run);
+no.addEventListener('touchstart',run,{passive:false});
+no.addEventListener('click',run);
+yes.addEventListener('click',()=>{
+  card.classList.add('win');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const em=['❤️','💖','🌹','💕','👑','✨'];
+  setInterval(()=>{
+    const h=document.createElement('div');
+    h.className='heart';
+    h.textContent=em[Math.floor(Math.random()*em.length)];
+    h.style.left=Math.random()*100+'vw';
+    h.style.fontSize=(18+Math.random()*26)+'px';
+    h.style.animationDuration=(3+Math.random()*3)+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6500);
+  },180);
+});
+</script>
+</body>
+</html>
